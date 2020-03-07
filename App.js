@@ -148,6 +148,7 @@ function HomeScreen() {
 const Stack = createStackNavigator();
 
 export default class App extends React.Component {
+
   // state = {
   //   movieName: '',
   //   apiData: [],
@@ -207,9 +208,9 @@ export default class App extends React.Component {
   //     console.log('api test Title 1: ', this.state.apiData.Search[1].Title)
   //   }
   // }
-
-
+  
   render() {
+    const Stack = createStackNavigator()
     return (
       <NavigationContainer>
         <Stack.Navigator>

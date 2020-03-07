@@ -6,13 +6,15 @@ import { createStackNavigator } from '@react-navigation/stack'
 class SearchScreen extends React.Component {
   state = {
     movieName: '',
-    apiData: [],
+    found: true,
   }
 
   search = async () => {
-   let searchword = this.state.movieName
-    let url = `http://www.omdbapi.com/?s=${searchword}&apikey=4d748d8d`
+    let searchword = this.state.movieName.trim().replace(/\s/g, '+')
+    let url = `http://www.omdbapi.com/?s=${searchword}&apikey=3e5cf6f0`
     console.log('url', url)
+    let filmList = []
+    let filmListLength = 0
     fetch(url)
       .then(Response => {
         console.log('response', Response)
@@ -20,100 +22,70 @@ class SearchScreen extends React.Component {
       })
       .then(data => {
         console.log('data', data)
-        let filmList = []
-        if (data.Response) {
-
-          if (data.totalResults <= 10) {
-            filmList = data.Search
+        if (data.Response === 'True') {
+          console.log('data.response', data.Response)          
+          this.props.navigation.navigate('Results', {movieName: this.state.movieName, searchWord: searchword})
+          this.setState( {found: true})
           } else {
-            for (let i = 0; i < Math.ceil(data.totalResults / 10); i++) {
-              let urlLoop = `http://www.omdbapi.com/?s=${searchword}&page=${i + 1}&apikey=4d748d8d`
-              // console.log('urlLoop', urlLoop)
-              fetch(urlLoop)
-                .then(Response => {
-                  // console.log('response', Response)
-                  return Response.json()
-                })
-                .then(data => {
-                  filmList.push(...data.Search)
-                  // console.log('data', data)
-                  // filmList.push(this.state.apiData.Search)
-                  // console.log('filmList', filmList)
-                })
-                .catch(error => console.log('error'))
-            }
+            this.setState( {found: false})
           }
-          console.log('filmList', filmList)
-          this.setState({ apiData: filmList })
-        }
-      }
+        }    
       )
-      .catch(error => console.log('error'))
-        // this.props.navigation.navigate('Results', this.state)
-    }
+      .catch(error => console.log('Error', error))
+    // this.props.navigation.navigate('Results', this.state)
+  }
 
-// componentDidUpdate() {
-//         this.props.navigation.navigate('Results', this.state)
-// }
+  // componentDidUpdate() {
+  //         this.props.navigation.navigate('Results', this.state)
+  // }
 
-render() {
-return (
+  render() {
 
-        // < KeyboardAvoidingView behavior="padding" style={styles.container} >
-  <View>
+    return (
+
+      // < KeyboardAvoidingView behavior="padding" style={styles.container} >
+      <View>
         <Text>ballyballs</Text>
 
-    {/* <Icon name="rocket" size={30} color="#900" /> */}
-    {/* <img src={"./assets/film-solid.svg"} /> */}
-    {/* <Ionicons name="tv" size={25} color="black" /> */}
-    <Text>Movie Search</Text>
+        {/* <Icon name="rocket" size={30} color="#900" /> */}
+        {/* <img src={"./assets/film-solid.svg"} /> */}
+        {/* <Ionicons name="tv" size={25} color="black" /> */}
+        <Text>Movie Search</Text>
 
-  <TextInput
-    style={styles.input}
-    // value={this.state.movieName}
-    onChangeText={(name) => this.setState({ movieName: name })}
-    placeholder="To Do"
-    />
-  {/* <Button title="Submit" onPress={this.handleSubmit} disabled={!this.state.isFormValid} /> */}
-  <Button title="Search" onPress={this.search} />
-  {/* <Button title="debug" onPress={this.debug} /> */}
-    <FlatList
-    data={this.state.apiData}
-    renderItem={({item}) => (
-      <TouchableOpacity
-      onPress={console.log('Opacity in Flatlist', item)}
-      key={item.key}
-      >
-                    <Text>film</Text>
-                    <Text>{item.Title}</Text>
-                    <Image source={{uri: item.Poster}} style={{width: 50, height:50}}/>
-            </TouchableOpacity>
-    )}>
-</FlatList> 
-    </View>
+        <TextInput
+          style={styles.input}
+          // value={this.state.movieName}
+          onChangeText={(name) => this.setState({ movieName: name })}
+          placeholder="To Do"
+        />
+        {/* <Button title="Submit" onPress={this.handleSubmit} disabled={!this.state.isFormValid} /> */}
+        <Button title="Search" onPress={this.search} />
+        {/* <Button title="debug" onPress={this.debug} /> */}
+<Text>{this.state.found ? "" : "There was no movie found!"}</Text>
+      </View>
 
-/* </KeyboardAvoidingView > */
+      /* </KeyboardAvoidingView > */
 
-)
-}
+    )
+  }
 }
 const styles = StyleSheet.create({
-        container: {
-          flex: 1,
-          backgroundColor: '#fff',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        input: {
-          borderWidth: 1,
-          borderColor: 'black',
-          minWidth: 100,
-          marginTop: 20,
-          marginHorizontal: 20,
-          paddingHorizontal: 10,
-          paddingVertical: 5,
-          borderRadius: 3,
-        }
-      });
-      
-  export default SearchScreen;
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: 'black',
+    minWidth: 100,
+    marginTop: 20,
+    marginHorizontal: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 3,
+  }
+});
+
+export default SearchScreen;
