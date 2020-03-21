@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { TouchableOpacity, Image, FlatList, Text, View, KeyboardAvoidingView, StyleSheet, TextInput, Button } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
-
+import { FaTv, FaSearch } from "react-icons/fa";
 
 class SearchScreen extends React.Component {
   state = {
@@ -23,47 +23,38 @@ class SearchScreen extends React.Component {
       .then(data => {
         console.log('data', data)
         if (data.Response === 'True') {
-          console.log('data.response', data.Response)          
-          this.props.navigation.navigate('Results', {movieName: this.state.movieName, searchWord: searchword})
-          this.setState( {found: true})
-          } else {
-            this.setState( {found: false})
-          }
-        }    
+          console.log('data.response', data.Response)
+          this.props.navigation.navigate('Results', { movieName: this.state.movieName, searchWord: searchword })
+          this.setState({ found: true })
+        } else {
+          this.setState({ found: false })
+        }
+      }
       )
       .catch(error => console.log('Error', error))
-    // this.props.navigation.navigate('Results', this.state)
   }
 
-  // componentDidUpdate() {
-  //         this.props.navigation.navigate('Results', this.state)
-  // }
 
   render() {
 
     return (
-
-      // < KeyboardAvoidingView behavior="padding" style={styles.container} >
       <View>
-        {/* <Icon name="rocket" size={30} color="#900" /> */}
-        {/* <img src={"./assets/film-solid.svg"} /> */}
-        {/* <Ionicons name="tv" size={25} color="black" /> */}
-        <Text>Movie Search</Text>
+        <View>
+        
+        <Text style={styles.header} ><FaTv /> Movie Search</Text>
+        </View>
 
         <TextInput
           style={styles.input}
-          // value={this.state.movieName}
           onChangeText={(name) => this.setState({ movieName: name })}
           placeholder="To Do"
         />
-        {/* <Button title="Submit" onPress={this.handleSubmit} disabled={!this.state.isFormValid} /> */}
-        <Button title="Search" onPress={this.search} />
-        {/* <Button title="debug" onPress={this.debug} /> */}
-<Text>{this.state.found ? "" : "There was no movie found!"}</Text>
+        <View style={styles.button}>
+        <FaSearch style={{margin: 10}}/>
+        <Button title={"Search"} onPress={this.search} />
+        </View>
+        <Text>{this.state.found ? "" : "There was no movie found!"}</Text>
       </View>
-
-      /* </KeyboardAvoidingView > */
-
     )
   }
 }
@@ -74,16 +65,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 15,
+  },
+  header: {
+    marginTop: 10,
+    textAlign: 'center',
+    alignSelf: 'center'
+  },
   input: {
     borderWidth: 1,
     borderColor: 'black',
+    padding: 10,
     minWidth: 100,
     marginTop: 20,
-    marginBottom: 25,
+    marginBottom: 10,
     marginHorizontal: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 3,
+    borderRadius: 5,
   }
 });
 

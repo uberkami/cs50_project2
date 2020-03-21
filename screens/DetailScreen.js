@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TouchableOpacity, Image, FlatList, Text, View, KeyboardAvoidingView, StyleSheet, TextInput, Button } from 'react-native'
+import { Dimensions, TouchableOpacity, Image, FlatList, Text, View, KeyboardAvoidingView, StyleSheet, TextInput, Button } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { ScrollView } from 'react-native-gesture-handler'
 
@@ -56,13 +56,15 @@ export default class details extends React.Component {
   }
 
   render() {
+    const maxWidth = Dimensions.get('window').width - 60
+    const maxHeight = Dimensions.get('window').height - 60
     return (
       <ScrollView style={styles.detail}>
-        <Text>Details of {this.state.movieName} imdb ({this.state.imdbRating})</Text>
-        <Image source={{ uri: this.state.poster }} style={{ width: 300, height: 446, margin: 25 }} />
-        <Text>Year: {this.state.movieYear}</Text>
-        <Text>Actors: {this.state.actors}</Text>
-        <Text>Plot: {this.state.plot}</Text>
+        <Text style={styles.text}>Title: {this.state.movieName} ({this.state.movieYear})</Text>
+        <Text style={styles.text}>imdb Rating: {this.state.imdbRating}</Text>
+        <Image source={{ uri: this.state.poster }} style={{ width: maxWidth, height: maxHeight, resizeMode: "contain", marginTop: 15, marginBottom: 15 }} />
+        <Text style={styles.text}>Actors: {this.state.actors}</Text>
+        <Text style={styles.text}>Plot: {this.state.plot}</Text>
 
 
       </ScrollView>
@@ -76,13 +78,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  text: {
+    marginTop: 5, 
+    marginBottom: 5
+  },
   detail: {
-    borderWidth: 0,
+    borderWidth: 1,
     borderRadius: 15,
-    borderColor: 'black',
-    minWidth: 100,
+    borderColor: '#0D0D0D',
+    backgroundColor: '#BFBFBF',
     margin: 20,
-    marginLeft: 80,
     marginHorizontal: 20,
     paddingHorizontal: 10,
     paddingVertical: 20,
