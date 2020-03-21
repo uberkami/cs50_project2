@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/native'
 import { Ionicons, Icon } from "react-native-vector-icons/Ionicons";
 import SearchScreen from './screens/SearchScreen'
 import ResultScreen from './screens/ResultScreen'
+import DetailScreen from './screens/DetailScreen'
 
 // const MainStack = createStackNavigator(
 //   {
@@ -215,8 +216,9 @@ export default class App extends React.Component {
       <NavigationContainer>
         <Stack.Navigator>
         {/* <Stack.Navigator initialRouteName='Search'> */}
-          <Stack.Screen name="Search" component={SearchScreen} />
-          <Stack.Screen name="Results" component={ResultScreen} />
+          <Stack.Screen name="Search" component={SearchScreen} options={{ title: 'Movie Search' }} />
+          <Stack.Screen name="Results" component={ResultScreen} options={({ route }) => ({ title: route.params.name })}/>
+          <Stack.Screen name="Details" component={DetailScreen} options={ ({ route }) => ({ title: route.params.name })} />
         </Stack.Navigator>
       </NavigationContainer>
       //<AppNavigator screenProps={{ apiData: this.state.apiData }} />

@@ -45,8 +45,6 @@ class SearchScreen extends React.Component {
 
       // < KeyboardAvoidingView behavior="padding" style={styles.container} >
       <View>
-        <Text>ballyballs</Text>
-
         {/* <Icon name="rocket" size={30} color="#900" /> */}
         {/* <img src={"./assets/film-solid.svg"} /> */}
         {/* <Ionicons name="tv" size={25} color="black" /> */}
@@ -81,6 +79,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     minWidth: 100,
     marginTop: 20,
+    marginBottom: 25,
     marginHorizontal: 20,
     paddingHorizontal: 10,
     paddingVertical: 5,
